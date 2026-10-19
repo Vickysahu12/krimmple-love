@@ -1,0 +1,619 @@
+@import "tailwindcss";
+@import "@fontsource/marcellus/400.css";
+@import "@fontsource-variable/nunito-sans";
+
+/* Devices with a real pointer. Touch screens get explicit controls instead of hover. */
+@custom-variant hover-device (@media (hover: hover) and (pointer: fine));
+
+/*
+  Design tokens. Every colour, font, radius, shadow and easing on the site comes from here.
+
+  Krimmple takes its identity from the logo: a charcoal and coral-red chevron K, a red
+  speech-bubble heart, and a flared serif wordmark. The page is a warm white, blush bands
+  (the reference's peach) hold the quieter sections, charcoal carries type and the primary
+  buttons, and coral red is the love note: actions on hover, sale tags, hearts, selection.
+  Marcellus, a flared serif close to the wordmark, sets headlines; Nunito Sans, round and
+  friendly, carries everything you read. Shape: the speech bubble. Badges, review cards and
+  captions are rounded rectangles with one tight corner (the tail); buttons are pills.
+
+  The aliases at the end keep shared logic components working; new code uses the names.
+*/
+@theme {
+  --color-cream: #fffaf7;
+  --color-sand: #f6efea;
+  --color-paper: #ffffff;
+  --color-blush: #fbe7de;
+  --color-blush-deep: #f4d4c6;
+  --color-rouge: #e3343a;
+  --color-rouge-deep: #b8242a;
+  --color-plum: #303032;
+  --color-ink: #2d2d2f;
+  --color-ink-soft: #6b6563;
+  --color-line: rgb(48 48 48 / 0.11);
+  --color-line-strong: rgb(48 48 48 / 0.22);
+  --color-success: #2f7a4f;
+  --color-danger: #c62828;
+
+  --color-stone: var(--color-cream);
+  --color-stone-deep: var(--color-sand);
+  --color-ink-hover: var(--color-rouge-deep);
+  --color-bronze: var(--color-rouge);
+  --color-bronze-bright: var(--color-rouge);
+  --color-bronze-soft: var(--color-blush);
+
+  --font-display: "Marcellus", "Cinzel", Georgia, serif;
+  --font-sans: "Nunito Sans Variable", "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-hand: "Marcellus", Georgia, serif;
+
+  --radius-card: 20px;
+  --radius-field: 12px;
+
+  --shadow-float: 0 14px 32px -18px rgb(48 48 48 / 0.32);
+  --shadow-lift: 0 30px 60px -30px rgb(48 48 48 / 0.4);
+  --shadow-card: 0 20px 40px -24px rgb(48 48 48 / 0.36);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scrollbar-color: var(--color-rouge) var(--color-cream);
+  }
+
+  body {
+    @apply bg-cream font-sans text-ink antialiased;
+    font-size: 15.5px;
+    -webkit-tap-highlight-color: transparent;
+    caret-color: var(--color-rouge);
+  }
+
+  ::selection {
+    background: var(--color-rouge);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-rouge);
+    outline-offset: 3px;
+  }
+
+  button,
+  [role="button"],
+  a,
+  label[for],
+  select {
+    cursor: pointer;
+  }
+
+  button {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  a {
+    text-underline-offset: 4px;
+  }
+
+  input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-cream);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-rouge);
+    border: 3px solid var(--color-cream);
+    border-radius: 99px;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-10;
+  }
+
+  /* Headlines: the flared serif, close to the wordmark. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    line-height: 1.08;
+  }
+
+  /* Product and collection names (kept under this name for the shared components). */
+  .serif-italic {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.005em;
+  }
+
+  /* The accent word: the same serif, in coral red. */
+  .hand {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1;
+    color: var(--color-rouge);
+  }
+
+  /* Small labels: tabs, tags, button text. */
+  .caps {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* The logo's speech bubble: a rounded card with one tight corner as the tail. */
+  .bubble {
+    border-radius: 22px 22px 22px 6px;
+  }
+  .bubble-r {
+    border-radius: 22px 22px 6px 22px;
+  }
+
+  .field {
+    @apply h-12 w-full border border-line-strong bg-paper px-4 text-[15px] text-ink outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-ink-soft;
+    border-radius: var(--radius-field);
+  }
+  .field:focus {
+    border-color: var(--color-rouge);
+    box-shadow: 0 0 0 4px rgb(227 52 58 / 0.14);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+
+  /*
+    Button: a pill. On hover the coral red rolls in from the left and the arrow nudges
+    right. Variants set --btn-bg / --btn-fg / --btn-fill / --btn-fill-fg / --btn-ring.
+  */
+  .btn {
+    --btn-bg: var(--color-ink);
+    --btn-fg: #fff;
+    --btn-fill: var(--color-rouge);
+    --btn-fill-fg: #fff;
+    --btn-ring: transparent;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    white-space: nowrap;
+    border-radius: 999px;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    box-shadow: inset 0 0 0 1.5px var(--btn-ring);
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    transition:
+      color 300ms var(--ease-out),
+      box-shadow 300ms var(--ease-out),
+      transform 160ms var(--ease-out);
+  }
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--btn-fill);
+    clip-path: circle(0% at 0% 50%);
+    transition: clip-path 520ms var(--ease-out);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .btn .btn-arrow {
+    transition: transform 300ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover {
+      color: var(--btn-fill-fg);
+      box-shadow: inset 0 0 0 1.5px transparent;
+    }
+    .btn:hover::before {
+      clip-path: circle(150% at 0% 50%);
+    }
+    .btn:hover .btn-arrow {
+      transform: translateX(4px);
+    }
+    .group:hover .btn-group {
+      color: var(--btn-fill-fg);
+      box-shadow: inset 0 0 0 1.5px transparent;
+    }
+    .group:hover .btn-group::before {
+      clip-path: circle(150% at 0% 50%);
+    }
+  }
+
+  .link-line {
+    position: relative;
+    padding-block: 2px;
+  }
+  .link-line::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1.5px;
+    border-radius: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 300ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .link-line:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+  .link-line[aria-current="page"]::after,
+  .link-line[data-active="true"]::after {
+    transform: scaleX(1);
+  }
+
+  /* Permanent coral underline that thickens on hover. */
+  .link-under {
+    text-decoration: underline;
+    text-decoration-color: var(--color-rouge);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 5px;
+    transition:
+      text-decoration-thickness 200ms ease,
+      text-underline-offset 200ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .link-under:hover {
+      text-decoration-thickness: 3px;
+      text-underline-offset: 3px;
+    }
+  }
+
+  .press {
+    transition: transform 160ms var(--ease-out);
+  }
+  .press:active {
+    transform: scale(0.96);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* A coral underline under one word. */
+  .swash {
+    background-image: linear-gradient(var(--color-rouge), var(--color-rouge));
+    background-repeat: no-repeat;
+    background-size: 100% 0.08em;
+    background-position: 0 92%;
+  }
+
+  /* A tailor's tape: inch ticks, used as a divider and on the fit finder. */
+  .stitch {
+    height: 10px;
+    background-image:
+      repeating-linear-gradient(90deg, var(--stitch-ink, var(--color-rouge)) 0 1px, transparent 1px 10px),
+      repeating-linear-gradient(90deg, var(--stitch-ink, var(--color-rouge)) 0 1px, transparent 1px 50px);
+    background-size: 100% 5px, 100% 10px;
+    background-repeat: repeat-x;
+    background-position: 0 0, 0 0;
+    opacity: var(--stitch-opacity, 0.45);
+  }
+
+  .ruled {
+    background-image: linear-gradient(to bottom, transparent 31px, rgb(227 52 58 / 0.1) 31px, rgb(227 52 58 / 0.1) 32px);
+    background-size: 100% 32px;
+  }
+}
+
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5) rotate(-8deg);
+    filter: blur(3px);
+  }
+  30% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.96) rotate(0deg);
+    filter: blur(0);
+  }
+  75% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes press {
+  0% {
+    opacity: 0;
+    transform: scale(1.18);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+@keyframes lift {
+  0% {
+    opacity: 0.95;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-16px) scale(1.12);
+  }
+}
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(5px) rotate(-6deg);
+  }
+}
+@keyframes roll {
+  from {
+    transform: translateY(60%);
+    opacity: 0;
+  }
+}
+@keyframes ring {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes pop {
+  40% {
+    transform: scale(1.3);
+  }
+}
+@keyframes bump {
+  35% {
+    transform: scale(1.35);
+  }
+}
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes draw {
+  from {
+    stroke-dashoffset: var(--len, 60);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes shake {
+  20%,
+  60% {
+    transform: translateX(-4px);
+  }
+  40%,
+  80% {
+    transform: translateX(4px);
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ping-soft {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  80%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+@keyframes burst {
+  from {
+    transform: translate(-50%, -50%) rotate(var(--a)) translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(var(--a)) translateY(-18px) scale(0.3);
+    opacity: 0;
+  }
+}
+@keyframes swash-in {
+  from {
+    background-size: 0% 1px;
+  }
+}
+@keyframes rise {
+  from {
+    clip-path: inset(100% 0 0 0 round var(--radius-card));
+    transform: translateY(20px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round var(--radius-card));
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .anim-fade-up {
+    animation: fade-up 650ms var(--ease-out) both;
+    animation-delay: var(--delay, 0ms);
+  }
+  .anim-fade-in {
+    animation: fade-in 450ms ease both;
+    animation-delay: var(--delay, 0ms);
+  }
+  .anim-stamp {
+    animation: stamp 1300ms var(--ease-out) both;
+  }
+  .anim-press {
+    animation: press 380ms var(--ease-out) both;
+  }
+  .anim-lift {
+    animation: lift 520ms var(--ease-out) both;
+  }
+  .anim-nudge {
+    animation: nudge 1.8s var(--ease-in-out) infinite;
+  }
+  .anim-roll {
+    animation: roll 420ms var(--ease-out) both;
+  }
+  .ring-timer {
+    animation-name: ring;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  .group\/hero:hover .ring-timer {
+    animation-play-state: paused;
+  }
+  .anim-pop {
+    animation: pop 420ms var(--ease-spring);
+  }
+  .anim-bump {
+    animation: bump 450ms var(--ease-spring);
+  }
+  .anim-shake {
+    animation: shake 360ms ease;
+  }
+  .anim-draw {
+    stroke-dasharray: var(--len, 60);
+    animation: draw 600ms var(--ease-out) 200ms both;
+  }
+  .anim-swash {
+    animation: swash-in 900ms var(--ease-out) 400ms both;
+  }
+  .spin-slow {
+    animation: spin-slow 18s linear infinite;
+  }
+  .marquee-track {
+    animation: marquee var(--marquee-duration, 40s) linear infinite;
+  }
+  .ping-soft {
+    animation: ping-soft 1.8s var(--ease-out) infinite;
+  }
+  .burst-dot {
+    animation: burst 600ms var(--ease-out) both;
+  }
+
+  [data-reveal="armed"] {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  [data-reveal="in"] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 900ms var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal-frame="armed"] {
+    clip-path: inset(100% 0 0 0 round var(--radius-card));
+    transform: translateY(20px);
+  }
+  [data-reveal-frame="in"] {
+    animation: rise 1000ms var(--ease-out) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  .hero-progress {
+    animation: progress var(--duration) linear forwards;
+  }
+  .hero-progress[data-paused="true"] {
+    animation-play-state: paused;
+  }
+
+  .page-enter {
+    animation: fade-in 400ms ease both;
+  }
+}
+
+.hero-progress {
+  transform-origin: left;
+}
+
+.ring-timer {
+  stroke-dashoffset: 100;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ring-timer {
+    stroke-dashoffset: 0;
+  }
+}
+
+.anim-press {
+  opacity: 0.9;
+}
+@media (prefers-reduced-motion: reduce) {
+  .anim-lift {
+    display: none;
+  }
+}
+

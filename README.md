@@ -1,16 +1,42 @@
-# React + Vite
+# Krimmple
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A demo storefront for Krimmple, "Love every curve": anarkalis, kurta sets, lehengas, shararas and sarees cut for curves in sizes XL to 6XL. 49 pieces from ₹1,999 to ₹5,999.
 
-Currently, two official plugins are available:
+## Run it
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Build with `npm run build`, then preview with `npm run preview`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## What works
 
-## Expanding the Oxlint configuration
+- **Home:**
+  - "Just pick your own style" hero with style chips, arrows and swipe.
+  - Size marquee, best sellings, and the fit finder (tape slider, size chart, save my size).
+  - Our products tabs, about us, feedback corner.
+  - Contact form with a video-fitting option, coupon codes and an Instagram wall.
+- **Shop:**
+  - Category pages, with filters in the URL: fabric, occasion, colour, price.
+  - Sort, and search with suggestions.
+- **Product page:**
+  - Gallery with zoom, colour siblings and size picker. Your saved size is preselected.
+  - "Model wears" fit note, size guide, pincode check, reviews, related and recently viewed.
+- **Bag:**
+  - Drawer and full page.
+  - Free shipping progress over ₹1,999.
+  - Coupons: `CURVES10`, `LOVE500` (₹3,999+), `FESTIVE15` (₹6,999+).
+- **Checkout:**
+  - Address with pincode autofill, then UPI, card, net banking or COD (₹49).
+  - Order confirmation and order history on this device.
+- **Also:** wishlist, account, help/FAQ, about us, a 404 page and an error page.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+All data is local (`src/data`). The cart, wishlist, orders and saved fit live in localStorage. No real payment is taken. Reviews and customer notes are sample content.
+
+## Stack
+
+- Vite, React 19, React Router 7 and Tailwind CSS v4.
+- Motion, Lenis and Phosphor icons.
+- Marcellus and Nunito Sans fonts.
