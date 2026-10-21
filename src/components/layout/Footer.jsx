@@ -84,22 +84,6 @@ export function Footer() {
           <div>
             <Logo size="lg" />
             <p className="mt-5 max-w-[32ch] text-[14.5px] leading-relaxed text-ink-soft">{site.footer.blurb}</p>
-            <p className="mt-6 text-[14px] font-extrabold">Social media</p>
-            <ul className="mt-3 flex gap-2">
-              {site.footer.social.map((s) => (
-                <li key={s.label}>
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={s.label}
-                    className="press grid size-10 place-items-center rounded-full border border-line-strong text-ink transition-[background-color,border-color,color,transform] duration-300 hover:-translate-y-0.5 hover:border-rouge hover:bg-rouge hover:text-white"
-                  >
-                    <Icon name={s.icon} size={18} />
-                  </a>
-                </li>
-              ))}
-            </ul>
           </div>
 
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
@@ -137,7 +121,7 @@ export function Footer() {
 
         <div className="border-t border-line">
           <p className="shell py-5 text-center text-[12.5px] text-ink-soft">
-            © {YEAR} {site.name}. All rights reserved. Demo storefront: prices, reviews and orders are sample data.
+            © {YEAR} {site.name}. All rights reserved.
           </p>
         </div>
       </div>

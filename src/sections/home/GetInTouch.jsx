@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { contact, instagram, offers } from '../../data/content'
+import { contact, offers } from '../../data/content'
 import { useReveal } from '../../hooks/useReveal'
 import { Img } from '../../components/ui/Img'
 import { Icon } from '../../components/ui/Icon'
@@ -10,7 +10,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 /**
  * Get in touch (ref): the studio card on the left, a short form on the right with an option
- * to book a free video fitting. Then the codes and the #KrimmpleLove wall.
+ * to book a free video fitting. Then the codes.
  */
 export function GetInTouch() {
   const ref = useReveal()
@@ -114,23 +114,6 @@ export function GetInTouch() {
           <li key={o.code} className="bubble flex items-center justify-between gap-3 border border-dashed border-rouge/40 bg-paper px-5 py-4">
             <p className="text-[15px] font-bold text-ink">{o.title}</p>
             <CopyCode code={o.code} />
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-20 flex flex-col items-center text-center">
-        <h2 className="display text-[30px] text-ink sm:text-[40px]">{instagram.tag}</h2>
-        <p className="mt-2 text-[15px] text-ink-soft">Tag {instagram.handle} to be featured. Every size, every story.</p>
-      </div>
-      <ul className="mt-8 grid grid-cols-3 gap-2 sm:gap-3 lg:grid-cols-6">
-        {instagram.images.map((id, i) => (
-          <li key={id}>
-            <a href={instagram.href} target="_blank" rel="noreferrer" aria-label={`Instagram post ${i + 1}`} className="group relative block overflow-hidden rounded-[18px]" data-reveal-frame style={{ '--reveal-delay': `${i * 60}ms` }}>
-              <Img id={id} alt="" sizes="(min-width: 1024px) 16vw, 33vw" className="aspect-square" position="50% 20%" imgClassName="transition-transform duration-[1200ms] ease-[var(--ease-out)] group-hover:scale-110" />
-              <span className="absolute inset-0 grid place-items-center bg-rouge/0 transition-colors duration-300 group-hover:bg-rouge/45">
-                <span className="size-10 scale-50 opacity-0 transition-[opacity,transform] duration-300 ease-[var(--ease-out)] group-hover:scale-100 group-hover:opacity-100" style={{ background: 'url(/brand/heart-bubble-white.svg) center / contain no-repeat' }} />
-              </span>
-            </a>
           </li>
         ))}
       </ul>

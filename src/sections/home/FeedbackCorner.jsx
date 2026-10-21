@@ -18,7 +18,7 @@ export function FeedbackCorner() {
 
   return (
     <section id="love" className="shell scroll-mt-32 pt-20 lg:pt-28" aria-labelledby="love-title">
-      <SectionHeading id="love-title" title="Feedback" italic="corner" sub="Real words from women who finally found their fit. Sample notes for this demo." />
+      <SectionHeading id="love-title" title="Feedback" italic="corner" sub="Real words from women who finally found their fit." />
       <ul className="mt-10 grid gap-5 md:grid-cols-3" aria-live="polite">
         {trio.map((t, k) => {
           const p = getProductSync(t.productId)

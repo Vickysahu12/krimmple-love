@@ -100,13 +100,6 @@ export const contact = {
   address: 'Studio 4, C-Scheme, Jaipur',
 }
 
-export const instagram = {
-  handle: '@krimmple.love',
-  tag: '#KrimmpleLove',
-  href: 'https://instagram.com',
-  images: ['c31-1', 'c35-1', 'c44-1', 'c33-1', 'c48-1', 'c45-1'],
-}
-
 export const offers = [
   { title: '10% off everything', code: 'CURVES10' },
   { title: '₹500 off above ₹3,999', code: 'LOVE500' },
